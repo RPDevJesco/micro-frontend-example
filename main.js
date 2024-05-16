@@ -12,6 +12,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+function loadStylesheet(url) {
+    const existingLink = document.querySelector(`link[href="${url}"]`);
+    if (existingLink) {
+        existingLink.remove();
+    }
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = url;
+    link.onload = () => console.log(`Loaded stylesheet: ${url}`);
+    link.onerror = () => console.error(`Error loading stylesheet: ${url}`);
+    document.head.appendChild(link);
+}
+
 function loadComponent(url, elementId) {
     fetch(url)
         .then(response => response.text())
@@ -25,12 +39,18 @@ function loadPage(page) {
         .then(response => response.text())
         .then(data => {
             contentDiv.innerHTML = data;
+            loadStylesheet(`content/${page}.css`);
             loadScript(`content/${page}.js`);
         })
         .catch(error => console.error('Error loading page:', error));
 }
 
 function loadScript(url) {
+    const existingScript = document.querySelector(`script[src="${url}"]`);
+    if (existingScript) {
+        existingScript.remove();
+    }
+
     const script = document.createElement('script');
     script.src = url;
     script.onload = () => console.log(`Loaded script: ${url}`);

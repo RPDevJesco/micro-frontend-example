@@ -1,0 +1,7 @@
+/* Styles specific to the about page */
+h2 {
+    color: green;
+}
+p {
+    font-size: 1.2em;
+}
